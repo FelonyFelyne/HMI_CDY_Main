@@ -1,7 +1,9 @@
 //Libreria de la pantalla 
     // ( no olvidar configurar correctamente el archivo: User_Setup.h de la libreria )
+
 #include <TFT_eSPI.h>               //https://github.com/Bodmer/TFT_eSPI
 #include <XPT2046_Touchscreen.h>    //https://github.com/PaulStoffregen/XPT2046_Touchscreen
+
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
@@ -19,11 +21,7 @@ XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);
 // Touchscreen coordinates: (x, y) and pressure (z)
 int x, y, z;
 bool pressed = 0;
-bool pantallaPendiente = false;
-bool botonesMostrados = false;  //Actualizar los botones solo una vez al entrar a la página 10
 
-const int midX = 120;
-const int midY = 160;
 
 // variables globales de impresion de graficos
 bool state = 0; // variable para cambio de estado y correr ciertas cosas de los graficos solo una vez
