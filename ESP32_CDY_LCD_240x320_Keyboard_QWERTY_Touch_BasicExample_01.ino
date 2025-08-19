@@ -1,7 +1,7 @@
 //Libreria de la pantalla 
     // ( no olvidar configurar correctamente el archivo: User_Setup.h de la libreria )
-#include <TFT_eSPI.h>
-#include <XPT2046_Touchscreen.h>
+#include <TFT_eSPI.h>               //https://github.com/Bodmer/TFT_eSPI
+#include <XPT2046_Touchscreen.h>    //https://github.com/PaulStoffregen/XPT2046_Touchscreen
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
