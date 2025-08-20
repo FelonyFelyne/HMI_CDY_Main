@@ -11,8 +11,8 @@ printQWERTY(); //dibujar recuadro amarillo donde se escribe
 
 // ======================= Passwords válidos ==============================
 // Lista de contraseñas válidas para ingresar a otras funciones
-const char* passwords[] = {"1234", "password", "qwerty", "manual"};
-const int   numPasswords = 4;
+const char* passwords[] = {"1234", "PASSWORD", "QWERTY", "WIFI", "MANUAL"};
+const int   numPasswords = 5;
 
 
  // caracteres del teclado QWERTY
@@ -280,8 +280,12 @@ Tecla teclas[] = {
   {183,280,20,25,{".",".","."}, 189,286},
 };
 
+
+
 // Cantidad de teclas definidas
 int numTeclas = sizeof(teclas) / sizeof(teclas[0]);
+
+
 
 // Función para dibujar teclado
 void drawQWERTY() {
@@ -337,8 +341,102 @@ tft.drawRoundRect(200+8, 280, 31, 25, 2, tft.color565(255, 255, 255)); // ENTER
 
 
 
+void touchQWERTY() {
+  if (pressed == 1) {
+    state = 0;
+
+    for (int i = 0; i < numTeclas; i++) {
+      Tecla t = teclas[i];
+
+      // Detectar si el touch está dentro de los límites de la tecla
+      if (x >= t.x && x <= (t.x + t.w) &&
+          y >= t.y && y <= (t.y + t.h)) {
+
+        beep(3);
+        drawFrame(t.x, t.y, t.w, t.h);   
+        delay(100);
+
+        // Aquí usamos el array de chars[3] según bloq_mayus
+        const char* teclaChar = t.chars[bloq_mayus];
+        if (teclaChar != nullptr && teclaChar[0] != '\0') {
+          updateStr(teclaChar[0]);  // solo primer caracter
+        }
+
+        break; // ya encontramos la tecla, no seguir buscando
+      }
+    }
+
+    // --- teclas especiales ---
+    // BACKSPACE
+    if (x >= 208 && x <= 239 && y >= 250 && y <= 275) {
+      beep(3);
+      drawFrame(208, 250, 31, 25);
+      delay(100);
+      //borrar un carácter del string
+      backspaceStr(); //borrar ultimo caracater -> updateStr('\b'); 
+    }
+
+    // ENTER
+    if (x >= 208 && x <= 239 && y >= 280 && y <= 305) {
+      beep(3);
+      drawFrame(208, 280, 31, 25);
+      delay(100);
+
+         checkPassword(); //revisar contrasena (colocar condicional para usarse solo para pagina de ingreso de password)
+         copyStrings(); // copiar los char array a las variables que corresponden
+    }
+
+    // ESPACIO
+    if (x >= 83 && x <= 178 && y >= 280 && y <= 305) {
+      beep(3);
+      drawFrame(83, 280, 95, 25);
+      delay(100);
+      updateStr(' ');
+    }
+
+    // BLOQ MAYUS
+    if (x >= 3 && x <= 33 && y >= 250 && y <= 275) {
+      beep(3);
+      drawFrame(3, 250, 30, 25);
+      delay(100);
+      bloq_mayus = (bloq_mayus + 1) % 3;  // 0=Mayus,1=minus,2=símbolos
+      tft.fillRoundRect(1, 160, 339, 159, 2, tft.color565(0, 0, 0)); 
+      drawQWERTY();
+    }
+
+    //NUM KEYBOARD
+    if ( (x>=3) && (y>=280) && (x<=33) && (y<=305) && ( pressed == 1 )  ) {   //NUM KEYBOARD
+        beep(3);
+        drawFrame(3, 280, 30, 25);   
+        delay(100); 
+        if (bloq_mayus <= 1) {
+        bloq_mayus = 2;  
+        tft.fillRoundRect(1, 160, 339, 159, 2, tft.color565(0, 0, 0)); 
+        }
+        if (bloq_mayus >=3 ) { bloq_mayus = 0; tft.fillRoundRect(1, 160, 339, 159, 2, tft.color565(0, 0, 0)); }
+    } //fin de touch boundaries
+
+    if ( (x>=25+8) && (y>=280) && (x<=45+8) && (y<=305) && ( pressed == 1 )  ) {   //FACES
+        beep(3);
+        drawFrame(25+8, 280, 20, 25);   
+        delay(100); 
+        //Aun no hay funcion para EMOJIS
+    } //fin de touch boundaries
 
 
+
+  } //fin de if (pressed == 1)
+} // fin de void touchQWERTY()
+
+
+
+
+
+
+
+
+/*
+//VERSION ANTIGUA PERO MAS ENTENDIBLE PARA LEER ACCIONES TOUCH
 
 void touchQWERTY(){
 
@@ -764,13 +862,15 @@ copyStrings(); // copiar los char array a las variables que corresponden
  
 
 } // fin de touchQWERTY()
+*/
+
+
 
 
 
 
 
 /*
-
 //VERSION ANTIGUA PERO MAS ENTENDIBLE PARA MOSTRAR CADA CARACTER ASCCII
 
 void drawQWERTY(){  
