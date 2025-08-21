@@ -1,3 +1,4 @@
+
 //Libreria de la pantalla 
     // ( no olvidar configurar correctamente el archivo: User_Setup.h de la libreria )
     // (se agrega la configuracion de pines para el CDY al final de este main, solo inicialmente, despues se va a remover.)
@@ -27,7 +28,9 @@ bool pressed = 0;
 
 // variables globales de impresion de graficos
 bool state = 0; // variable para cambio de estado y correr ciertas cosas de los graficos solo una vez
-int pagina = 0; // variable para declarar la pagina en curso que se está desplegando en ese momento
+
+int pagina = 0; // variable para declarar la pagina en curso que se está desplegando en ese momento IMPORTANTE
+                // Se usa para hacer cambios entre diferentes pantallas y situaciones a mostrar, como un libro.
 
 
 #define light 16 //pin del backlight de la pantalla
@@ -36,8 +39,6 @@ bool state_light = 0; //boleano de no repeticion en pag 6 backlight
 
 #define roundr 10 //variable para el redondeo de los cuadrados (drawRoundRect, fillRoundRect)
 
-
-#include "medicals.h"  //El bitmap de inicio (puede cambiarse por cualquier otro)
 
 
 
@@ -48,12 +49,6 @@ void setup() {
   tft.setRotation(0); // vertical
   tft.fillScreen(TFT_WHITE);
 
-   tft.setSwapBytes(true);
-   tft.pushImage(0, 0, medicalsWidth, medicalsHeight, medicals);  //colocar aqui un mapa de bits
-   tft.setTextColor(TFT_BLACK, tft.color565(255, 255, 255));
-   tft.drawString("http://medicalsystems.mex.tl" ,25 ,280 , 2); // string, xpos, ypos, font
-   
-   delay(2000); //mostrar bitmap por 2 segundos
 
   //Touchscreen
   touchscreenSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);

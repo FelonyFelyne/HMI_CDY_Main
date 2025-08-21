@@ -40,10 +40,10 @@ void paginas_Principal() {  // donde se leera segun el touch la pagina que se va
 
       //ejemplo basico de otra pagina IMPORTANTE CAMBIAR
        tft.fillScreen(TFT_WHITE);
-       tft.pushImage(0, 0, medicalsWidth, medicalsHeight, medicals);  //colocar aqui un mapa de bits
+       //tft.pushImage(0, 0, medicalsWidth, medicalsHeight, medicals);  //colocar aqui un mapa de bits
        tft.setTextColor(TFT_BLACK, tft.color565(255, 255, 255));
-       tft.drawString("http://medicalsystems.mex.tl" ,25 ,280 , 2); // string, xpos, ypos, font
-       delay(2000); //mostrar bitmap por 2 segundos
+       //tft.drawString("http://medicalsystems.mex.tl" ,25 ,280 , 2); // string, xpos, ypos, font
+       delay(100); //mostrar bitmap por 2 segundos
        tft.fillScreen(TFT_BLACK);
        pagina = 0; //regresar a pagina 0
 
